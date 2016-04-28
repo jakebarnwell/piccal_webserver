@@ -25,7 +25,7 @@ def index():
     """ % "<br>".join(os.listdir(app.config['UPLOAD_FOLDER'],))
 
 @app.route("/upload/", methods=['POST'])
-def uplaod():
+def uploads():
     file = request.files['file']
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
