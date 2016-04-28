@@ -1,36 +1,36 @@
-from ocr import *
-from flask import Flask, request, jsonify
+import os
+from flask import Flask, request, redirect, url_for
+from werkzeug import secure_filename
+
+UPLOAD_FOLDER = '/tmp/'
+ALLOWED_EXTENSIONS = set(['bmp'])
+
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-_VERSION = 1
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-@app.route('/')
-def hi():
-    return "Hello world!"
+@app.route("/", methods=['GET', 'POST'])
+def index():
+    return """
+    <!doctype html>
+    <title>Upload new File</title>
+    <h1>Upload new File</h1>
+    <form action="upload/" method=post enctype=multipart/form-data>
+      <p><input type=file name=file>
+         <input type=submit value=Upload>
+    </form>
+    <p>%s</p>
+    """ % "<br>".join(os.listdir(app.config['UPLOAD_FOLDER'],))
 
-@app.route('/v{}/ocr_api'.format(_VERSION), methods=['POST'])
-def upload_files():
-    resp = flask.make_response()
-    if request.files['image']:
-        image = request.files['image']
-        resp.status_code = 204
-    else:
-        resp.status_code = 411
-    return resp
+@app.route("/upload/", methods=['POST'])
+def uplaod():
+    file = request.files['file']
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        return redirect(url_for('index'))
 
-@app.route('/v{}/ocr'.format(_VERSION), methods=["POST"])
-def ocr():
-    try:
-        url = request.json['image_url']
-        if 'jpg' in url:
-            output = process_image(url)
-            return jsonify({"output": output})
-        else:
-            return jsonify({"error": "only .jpg files, please"})
-    except:
-        return jsonify(
-            {"error": "Did you mean to send: {'image_url': 'some_jpeg_url'}"}
-        )
-    
-if __name__ == '__main__':
-    app.run()
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5001, debug=True)
