@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request, redirect, url_for
 from werkzeug import secure_filename
-import cv2
+#import cv2
 from PIL import Image
 from StringIO import StringIO
 import numpy as np
@@ -31,8 +31,8 @@ def index():
       <p><input type=file name=file>
          <input type=submit value=Upload>
     </form>
-    <p>%s</p>
-    """ % "<br>".join(os.listdir(app.config['UPLOAD_FOLDER'],))
+    <p></p>
+    """
 
 @app.route("/upload/", methods=['POST'])
 def uploads():
@@ -48,4 +48,4 @@ def uploads():
     return "Error"
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    app.run(debug=True)
