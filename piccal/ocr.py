@@ -19,6 +19,12 @@ def read_dictionary():
 
 english = read_dictionary()
 
+def simple_ocr(image):
+    image.filter(ImageFilter.SHARPEN)
+    text = pytesseract.image_to_string(image)
+    text = clean_text(text)
+    return text
+
 def process_image(url):
     image = _get_image(url)
     image.filter(ImageFilter.SHARPEN)

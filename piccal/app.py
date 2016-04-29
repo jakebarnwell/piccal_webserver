@@ -17,7 +17,7 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 def convert_to_cv(image_data):
-    pil_image = Image.open(StringIO(image_data));
+    pil_image = Image.open(StringIO(image_data))
     cv2_image = np.array(pil_image)
     return cv2_image
 
@@ -39,11 +39,12 @@ def uploads():
     file = request.files['file']
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        cv2_image = convert_to_cv(file.read())
-        extracted_texts, bboxes = ocr.extract_image_text(cv2_image)
-        print(len(extracted_texts))
-        print(extracted_texts)
-        return str(extracted_texts)
+        pil_image = Image.open(StringIO(file.read()))
+        text = ocr.simple_ocr(pil_image)
+        #cv2_image = convert_to_cv(file.read())
+        #extracted_texts, bboxes = ocr.extract_image_text(cv2_image)
+        print(text)
+        return text
     return "Error"
 
 if __name__ == "__main__":
