@@ -6,7 +6,7 @@ from werkzeug import secure_filename
 from PIL import Image
 from StringIO import StringIO
 import numpy as np
-import ocr
+#import ocr
 
 UPLOAD_FOLDER = '/tmp/'
 ALLOWED_EXTENSIONS = set(['bmp', 'png', 'jpg', 'jpeg'])
@@ -44,6 +44,8 @@ def uploads():
     log_file.write(str(request.files['file'].headers)+"\n")
     file = request.files['file']
     if file and allowed_file(file.filename):
+        with open("/tmp/manual_copy.bmp","wb") as f:
+            f.write(file.read())
         log_file.write("save image\n")
         #request.files['file'].save('/tmp/bitmap.bmp')
         log_file.write("Processing File\n")
@@ -54,8 +56,11 @@ def uploads():
         log_file.write("Type " + str(type(file.read())) + "\n")
         pil_image = Image.open(file_tmp)
         log_file.write("Read image\n")
-        text = ocr.simple_ocr(pil_image)
-        text_file = open("/tmp/Output.txt", "w")
+        pil_image.save("/tmp/PIL_saved_image.bmp")
+        log_file.write("Image saved.\n")
+#        text = ocr.simple_ocr(pil_image)
+        text = "this is test text"
+        text_file = open("/tmp/output.txt", "w")
         text_file.write(text)
 	text_file.close()
         #cv2_image = convert_to_cv(file.read())
