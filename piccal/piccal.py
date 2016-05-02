@@ -7,7 +7,7 @@ from PIL import Image
 from StringIO import StringIO
 import numpy as np
 import matlab.engine
-#import ocr
+import ocr
 
 UPLOAD_FOLDER = '/tmp/'
 ALLOWED_EXTENSIONS = set(['bmp', 'png', 'jpg', 'jpeg'])
@@ -56,8 +56,6 @@ def uploads():
         eng.OCRProcessing(image_path, text_path, nargout=0)
         text = read_file(text_path)
         print(text)
-        log_file.write("Success writing text\n")
-        log_file.close()
         return text
     return "Error"
 
