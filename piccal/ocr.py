@@ -3,8 +3,6 @@ from PIL import Image
 from PIL import ImageFilter
 from StringIO import StringIO
 from threading import Thread
-import cv2
-import re
 
 def read_dictionary():
     english = set([])
@@ -16,7 +14,7 @@ def read_dictionary():
     print(len(english))
     return english
 
-english = read_dictionary()
+#english = read_dictionary()
 
 def simple_ocr(image):
     image.filter(ImageFilter.SHARPEN)
