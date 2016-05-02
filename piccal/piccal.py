@@ -6,6 +6,7 @@ from werkzeug import secure_filename
 from PIL import Image
 from StringIO import StringIO
 import numpy as np
+import matlab.engine
 #import ocr
 
 UPLOAD_FOLDER = '/tmp/'
@@ -44,16 +45,19 @@ def uploads():
     log_file.write(str(request.files['file'].headers)+"\n")
     file = request.files['file']
     if file and allowed_file(file.filename):
-        with open("/tmp/manual_copy.bmp","wb") as f:
-            f.write(file.read())
+        #with open("/tmp/manual_copy.bmp","wb") as f:
+        #    f.write(file.read())
+	file.save("/tmp/file_save.txt")	
+#with open("/tmp/manual_text.txt","w") as f:
+	#    f.write(file.stream.read())
         log_file.write("save image\n")
         #request.files['file'].save('/tmp/bitmap.bmp')
         log_file.write("Processing File\n")
         filename = secure_filename(file.filename)
         #file.save(os.path.join("/tmp", "test_" + filename))
         log_file.write("Got filename\n")
-        file_tmp = cStringIO.StringIO(file.read())
-        log_file.write("Type " + str(type(file.read())) + "\n")
+        #file_tmp = cStringIO.StringIO(file.read())
+        #log_file.write("Type " + str(type(file.read())) + "\n")
         pil_image = Image.open(file_tmp)
         log_file.write("Read image\n")
         pil_image.save("/tmp/PIL_saved_image.bmp")
@@ -63,6 +67,8 @@ def uploads():
         text_file = open("/tmp/output.txt", "w")
         text_file.write(text)
 	text_file.close()
+        eng = matlab.engine.start_matlab()
+        eng.OCRProcessing("input_path_img", "output_path_text")
         #cv2_image = convert_to_cv(file.read())
         #extracted_texts, bboxes = ocr.extract_image_text(cv2_image)
         print(text)
