@@ -67,7 +67,7 @@ def uploads():
         #cv2_image = convert_to_cv(file.read())
         #extracted_texts, bboxes = ocr.extract_image_text(cv2_image)
 #        print(text)
-        log_file.write("OCR:\n" + text)
+        log_file.write("OCR:\n" + text + "\n")
         log_file.close()
         return text
     return "Error"
