@@ -47,7 +47,7 @@ def uploads():
     if file and allowed_file(file.filename):
         #with open("/tmp/manual_copy.bmp","wb") as f:
         #    f.write(file.read())
-	file.save("/tmp/file_save.txt")	
+	#file.save("/tmp/file_save.txt")	
 #with open("/tmp/manual_text.txt","w") as f:
 	#    f.write(file.stream.read())
         log_file.write("save image\n")
@@ -56,11 +56,11 @@ def uploads():
         filename = secure_filename(file.filename)
         #file.save(os.path.join("/tmp", "test_" + filename))
         log_file.write("Got filename\n")
-        #file_tmp = cStringIO.StringIO(file.read())
+        file_tmp = cStringIO.StringIO(file.read())
         #log_file.write("Type " + str(type(file.read())) + "\n")
         pil_image = Image.open(file_tmp)
         log_file.write("Read image\n")
-        pil_image.save("/tmp/PIL_saved_image.bmp")
+        pil_image.save("/tmp/PIL_saved_image.jpg")
         log_file.write("Image saved.\n")
 #        text = ocr.simple_ocr(pil_image)
         text = "this is test text"
