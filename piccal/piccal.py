@@ -17,12 +17,12 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
-def convert_to_cv(image_data):
-    pil_image = Image.open(StringIO(image_data))
-    cv2_image = np.array(pil_image)
-    return cv2_image
-
+    
+def read_file(text_path):
+    with open(text_path, 'r') as f:
+        read_data = f.read()
+        return read_data
+    
 @app.route("/", methods=['GET', 'POST'])
 def index():
     return """
@@ -38,40 +38,32 @@ def index():
 
 @app.route("/upload/", methods=['POST'])
 def uploads():
-    log_file = open("/tmp/log.txt", "a")
-    log_file.write("\n-----------------\nPost request received\n")
-    log_file.write("Files:\n")
-    log_file.write(str(request.files)+"\n")
-    log_file.write("Headers:\n")
-    log_file.write(str(request.files['file'].headers)+"\n")
-
+    print("----------------------\nPost request received")
+    
     file = request.files['file']
     if file and allowed_file(file.filename):
-        log_file.write("Processing File...\n")
-
         filename = secure_filename(file.filename)
-        log_file.write("Filename is: " + str(filename) + "\n")
+        file_tmp = cStringIO.StringIO(file.read())
+        pil_image = Image.open(file_tmp)
+    
+
+        image_path = UPLOAD_FOLDER + "PIL_saved_image.jpg"
+        print("Saving image to: " + image_path + "\n")
         
-	pil_image = Image.open(cStringIO.StringIO(file.read()))
-
-	image_save_path = "/tmp/temp_image.jpg"
-        pil_image.save(image_save_path)
-        log_file.write("Image saved to: " + image_save_path + "\n")
-        text = ocr.simple_ocr(pil_image)
-
-        text_file = open("/tmp/ocr.txt", "w")
-        text_file.write(text)
-	text_file.close()
-#        eng = matlab.engine.start_matlab()
-#        eng.OCRProcessing(image_save_path, "/tmp/ocr.txt")
-        #cv2_image = convert_to_cv(file.read())
-        #extracted_texts, bboxes = ocr.extract_image_text(cv2_image)
-#        print(text)
-        log_file.write("OCR:\n" + text + "\n")
-        log_file.close()
+        pil_image.save(image_path)
+        print("Image saved.\n Processing text.\n")
+        
+        text_path = UPLOAD_FOLDER + "output.txt"
+        eng.OCRProcessing(image_path, text_path, nargout=0)
+        #print("Text extracted\n")
+        
+        text = "test"
+        print(text)
         return text
     return "Error"
 
 if __name__ == "__main__":
+    eng = matlab.engine.start_matlab()
     app.run(debug=True)
+    eng.quit()
 
