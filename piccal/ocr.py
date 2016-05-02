@@ -5,7 +5,6 @@ from StringIO import StringIO
 from threading import Thread
 import cv2
 import re
-import cv2
 
 def read_dictionary():
     english = set([])
@@ -59,7 +58,6 @@ def eliminate_non_words(text):
 def clean_text(text):
     text = re.sub('[^0-9a-zA-Z,:-\p{P}]+', ' ', text)
     text = re.sub('\s+', ' ', text).strip()
-    text = eliminate_non_words(text)
     text = eliminate_non_words(text)
     print(text)
     text = re.sub('\b[^aiAI0-9]\b', ' ', text)
