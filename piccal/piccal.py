@@ -16,6 +16,8 @@ ALLOWED_EXTENSIONS = set(['bmp', 'png', 'jpg', 'jpeg'])
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
+use_matlab = True
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
     
@@ -54,26 +56,22 @@ def uploads():
         pil_image.save(image_path)
         print("Image saved.\nProcessing text.\n")
         
-        text_path = UPLOAD_FOLDER + "output.txt"
-        text_path2 = UPLOAD_FOLDER + "output"
-        eng.OCRProcessing(image_path, text_path2, nargout=0)
-        text = read_file(text_path)
-	print("OCR call")
-	#text = ""
-        #try:
-        #    print(ocr)
-        #    print(ocr.simple_ocr)
-        #    text0 = ocr.simple_ocr(pil_image)
-#	    text90 = ocr.simple_ocr(pil_image.rotate(90))
-#	    text = text0 if len(text0) >= len(text90) else text90
-#	    text180 = ocr.simple_ocr(pil_image.rotate(180))
-#	    text = text180 if len(text180) > len(text) else text
-#	    text270 = ocr.simple_ocr(pil_image.rotate(270))
-	#    text270 = ocr.simple_ocr(pil_image.rotate(-90))
-	#    text = text270 if len(text270) > len(text0) else text0
-            
-        #except:
-        #    print("Unexpected error:", sys.exc_info()[0])
+        if use_matlab:
+            text_path = UPLOAD_FOLDER + "output.txt"
+            text_path2 = UPLOAD_FOLDER + "output"
+            eng.OCRProcessing(image_path, text_path2, nargout=0)
+            text = read_file(text_path)
+        else:
+            print("OCR call")
+            text = ""
+            text0 = ocr.simple_ocr(pil_image)
+            #text90 = ocr.simple_ocr(pil_image.rotate(90))
+            #text = text0 if len(text0) >= len(text90) else text90
+            #text180 = ocr.simple_ocr(pil_image.rotate(180))
+            #text = text180 if len(text180) > len(text) else text
+            #text270 = ocr.simple_ocr(pil_image.rotate(270))
+            text270 = ocr.simple_ocr(pil_image.rotate(-90))
+            text = text270 if len(text270) > len(text0) else text0
         print(text)
         return text
     return "Error"
