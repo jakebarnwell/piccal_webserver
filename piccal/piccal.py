@@ -8,7 +8,7 @@ from PIL import Image
 from StringIO import StringIO
 import numpy as np
 import matlab.engine
-import ocr
+#import ocr
 
 UPLOAD_FOLDER = '/tmp/'
 ALLOWED_EXTENSIONS = set(['bmp', 'png', 'jpg', 'jpeg'])
