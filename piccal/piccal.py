@@ -1,5 +1,6 @@
 import cStringIO
 import os
+import sys
 from flask import Flask, request, redirect, url_for
 from werkzeug import secure_filename
 #import cv2
@@ -51,13 +52,28 @@ def uploads():
         print("Saving image to: " + image_path + "\n")
         
         pil_image.save(image_path)
-        print("Image saved.\n Processing text.\n")
+        print("Image saved.\nProcessing text.\n")
         
         text_path = UPLOAD_FOLDER + "output.txt"
-        eng.OCRProcessing(image_path, text_path, nargout=0)
-        #print("Text extracted\n")
-        
-        text = "test"
+        text_path2 = UPLOAD_FOLDER + "output"
+        eng.OCRProcessing(image_path, text_path2, nargout=0)
+        text = read_file(text_path)
+	print("OCR call")
+	#text = ""
+        #try:
+        #    print(ocr)
+        #    print(ocr.simple_ocr)
+        #    text0 = ocr.simple_ocr(pil_image)
+#	    text90 = ocr.simple_ocr(pil_image.rotate(90))
+#	    text = text0 if len(text0) >= len(text90) else text90
+#	    text180 = ocr.simple_ocr(pil_image.rotate(180))
+#	    text = text180 if len(text180) > len(text) else text
+#	    text270 = ocr.simple_ocr(pil_image.rotate(270))
+	#    text270 = ocr.simple_ocr(pil_image.rotate(-90))
+	#    text = text270 if len(text270) > len(text0) else text0
+            
+        #except:
+        #    print("Unexpected error:", sys.exc_info()[0])
         print(text)
         return text
     return "Error"

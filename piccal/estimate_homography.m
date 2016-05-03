@@ -55,7 +55,7 @@ function err = residual(H)
  err = sum(du.*du + dv.*dv) ;
 end
 
-if exist('fminsearch') == 2
+if exist('fminsearch') == 6
   H = H / H(3,3) ;
   opts = optimset('Display', 'none', 'TolFun', 1e-8, 'TolX', 1e-8) ;
   H(1:8) = fminsearch(@residual, H(1:8)', opts) ;
