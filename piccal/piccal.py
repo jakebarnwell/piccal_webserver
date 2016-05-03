@@ -9,18 +9,20 @@ from StringIO import StringIO
 import numpy as np
 import matlab.engine
 import ocr
+import time
 
-UPLOAD_FOLDER = '/tmp/'
+UPLOAD_FOLDER = '/home/ubuntu/'
 ALLOWED_EXTENSIONS = set(['bmp', 'png', 'jpg', 'jpeg'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-
 use_matlab = True
 
 if use_matlab:
-    eng = matlab.engine.start_matlab('-nojvm -nodisplay -nosplash -nodesktop')
-    print("Matlab loaded")
+    #eng = matlab.engine.start_matlab('-nodisplay -nosplash -nojvm -nodesktop')
+    eng = matlab.engine.connect_matlab()
+    print("Sqrt(4) is: " + str(eng.sqrt(4.0)))
+    print("MATLAB engine obtained.")
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
@@ -55,14 +57,16 @@ def uploads():
     
 
         image_path = UPLOAD_FOLDER + "PIL_saved_image.jpg"
-        print("Saving image to: " + image_path + "\n")
+        print("Saving image to: " + image_path + "...\n")
         
         pil_image.save(image_path)
         print("Image saved.\nProcessing text.\n")
         
         if use_matlab:
+            print("Test 1")
             text_path = UPLOAD_FOLDER + "output.txt"
             text_path2 = UPLOAD_FOLDER + "output"
+	    print("Test use matlab here")
             eng.OCRProcessing(image_path, text_path2, nargout=0)
             print("Matlab processed.\n")
             text = read_file(text_path)
