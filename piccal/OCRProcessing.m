@@ -376,7 +376,7 @@ DEBUG = 0;
   %% Then use Tesseract to analyze the text %%
   %write the image to file and then do the OCR
   fn_txtOCRfinal = sprintf('%s.txt',output_img_path);
-  fwid = fopen([fn_txtOCRfinal '.txt'],'w');
+  fwid = fopen([fn_txtOCRfinal],'w');
   for ig=1:nTextImg
       current_ocr = ocr(imgs_text{ig});
       current_text = current_ocr.Text;
