@@ -8,7 +8,7 @@ from PIL import Image
 from StringIO import StringIO
 import numpy as np
 import matlab.engine
-#import ocr
+import ocr
 
 UPLOAD_FOLDER = '/tmp/'
 ALLOWED_EXTENSIONS = set(['bmp', 'png', 'jpg', 'jpeg'])
@@ -17,6 +17,10 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 use_matlab = True
+
+if use_matlab:
+    eng = matlab.engine.start_matlab('-nojvm -nodisplay -nosplash -nodesktop')
+    print("Matlab loaded")
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
@@ -60,6 +64,7 @@ def uploads():
             text_path = UPLOAD_FOLDER + "output.txt"
             text_path2 = UPLOAD_FOLDER + "output"
             eng.OCRProcessing(image_path, text_path2, nargout=0)
+            print("Matlab processed.\n")
             text = read_file(text_path)
         else:
             print("OCR call")
@@ -77,7 +82,5 @@ def uploads():
     return "Error"
 
 if __name__ == "__main__":
-    eng = matlab.engine.start_matlab()
     app.run(debug=True)
-    eng.quit()
 
