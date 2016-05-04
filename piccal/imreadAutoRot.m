@@ -9,11 +9,16 @@ function im = imreadAutoRot(filename)
 % Jianxiong Xiao
 % Reference: JPEG image format at http://www.impulseadventure.com/photo/exif-orientation.html
 
-im = imread(filename);
+im = imread(filename, orientation);
 
 try
+    image_orientation = orientation
     info = imfinfo(filename);
-    switch info.Orientation
+    
+    if image_orientation == 0
+        image_orientation = info.Orientation
+     
+    switch image_orientation
         case 1
             
         case 2

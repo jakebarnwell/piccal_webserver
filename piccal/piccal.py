@@ -50,6 +50,12 @@ def uploads():
     print("----------------------\nPost request received")
     
     file = request.files['file']
+    if 'orientation' in request.form:
+        orientation = request.form.get('orientation')
+    else:
+        orientation = 0
+    print("Orientation is: " + str(orientation))
+    
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file_tmp = cStringIO.StringIO(file.read())
@@ -66,7 +72,7 @@ def uploads():
             print("Test 1")
             text_path = UPLOAD_FOLDER + "output.txt"
             text_path2 = UPLOAD_FOLDER + "output"
-            eng.OCRProcessing(image_path, text_path2, nargout=0)
+            eng.OCRProcessing(image_path, text_path2, orientation, nargout=0)
             
             print("Matlab processed.\n")
             text = read_file(text_path)

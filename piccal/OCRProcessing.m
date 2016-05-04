@@ -1,4 +1,4 @@
-function OCRProcessing(input_img_path, output_img_path)
+function OCRProcessing(input_img_path, output_img_path, orientation)
   
 %% 
 set(0,'DefaultTextFontSize',16);
@@ -11,7 +11,7 @@ DEBUG = 0;
 
 
 
-  img_3chB = imreadAutoRot(input_img_path);
+  img_3chB = imreadAutoRot(input_img_path, orientation);
   img_3ch = imresize(img_3chB,1.0,'bicubic');
   
   % do binarization
