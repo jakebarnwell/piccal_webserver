@@ -63,7 +63,6 @@ def uploads():
         print("Image saved.\nProcessing text.\n")
         
         if use_matlab:
-            print("Test 1")
             text_path = UPLOAD_FOLDER + "output.txt"
             text_path2 = UPLOAD_FOLDER + "output"
             eng.OCRProcessing(image_path, text_path2, nargout=0)
