@@ -17,7 +17,7 @@ try
     
     if image_orientation == 0
         image_orientation = info.Orientation
-     
+    end
     switch image_orientation
         case 1
             
