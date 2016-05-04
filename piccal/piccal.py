@@ -77,6 +77,12 @@ def uploads():
             
             print("Cleaning text")
             text = ocr.clean_text(text)
+            if len(text) < 3:
+                print("Found no text. Using simple ocr as fallback.\n")
+                if orientation != 6:
+                    text = ocr.simple_ocr(pil_image)
+                else:
+                    text = ocr.simple_ocr(pil_image.rotate(-90))
         else:
             print("OCR call")
             text = ""
