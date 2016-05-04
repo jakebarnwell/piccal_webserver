@@ -21,7 +21,7 @@ DEBUG = 0;
   img = img_gr;
 
   
-%   canny_threshold = 0.1; sig_canny=8;
+    canny_threshold = 0.01; sig_canny=8;
 %   % performe edge detection on img
 %   edge_bw = edge(img,'canny',canny_threshold,sig_canny);
 %   edge_bw2 = imdilate(edge_bw,ones(5,5));
@@ -272,6 +272,7 @@ DEBUG = 0;
   % Detect text blocks using some heruistics %%, first is the pixel value variance
   % imgr = img_rect;
   imgr = img;
+  img_rect = img;
   wnd_sz  = 25; 
   boxflt  = fspecial('average',[wnd_sz wnd_sz]);
   img_ex  = imfilter(imgr,boxflt,'replicate');
