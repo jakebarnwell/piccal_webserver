@@ -66,10 +66,13 @@ def uploads():
             print("Test 1")
             text_path = UPLOAD_FOLDER + "output.txt"
             text_path2 = UPLOAD_FOLDER + "output"
-	    print("Test use matlab here")
             eng.OCRProcessing(image_path, text_path2, nargout=0)
+            
             print("Matlab processed.\n")
             text = read_file(text_path)
+            
+            print("Cleaning text")
+            text = ocr.clean_text(text)
         else:
             print("OCR call")
             text = ""
