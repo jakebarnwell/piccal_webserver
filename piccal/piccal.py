@@ -51,7 +51,7 @@ def uploads():
     
     file = request.files['file']
     if 'orientation' in request.form:
-        orientation = request.form.get('orientation')
+        orientation = int(request.form.get('orientation'))
     else:
         orientation = 0
     print("Orientation is: " + str(orientation))
@@ -59,8 +59,7 @@ def uploads():
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file_tmp = cStringIO.StringIO(file.read())
-        pil_image = Image.open(file_tmp)
-    
+        pil_image = Image.open(file_tmp)    
 
         image_path = UPLOAD_FOLDER + "PIL_saved_image.jpg"
         print("Saving image to: " + image_path + "...\n")

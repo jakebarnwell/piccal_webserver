@@ -10,7 +10,6 @@ DEBUG = 0;
 
 
 
-
   img_3chB = imreadAutoRot(input_img_path, orientation);
   img_3ch = imresize(img_3chB,1.0,'bicubic');
   
