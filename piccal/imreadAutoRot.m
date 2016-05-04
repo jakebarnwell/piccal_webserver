@@ -1,4 +1,4 @@
-function im = imreadAutoRot(filename)
+function im = imreadAutoRot(filename, orientation)
 
 % This is a replacement of imread in Matlab to handle auto-rotation in JPEG.
 % Matlab seems not able to handle automatic rotation of image in imread 
@@ -9,7 +9,7 @@ function im = imreadAutoRot(filename)
 % Jianxiong Xiao
 % Reference: JPEG image format at http://www.impulseadventure.com/photo/exif-orientation.html
 
-im = imread(filename, orientation);
+im = imread(filename);
 
 try
     image_orientation = orientation
@@ -17,7 +17,7 @@ try
     
     if image_orientation == 0
         image_orientation = info.Orientation
-    end
+    end 
     switch image_orientation
         case 1
             
@@ -30,7 +30,7 @@ try
             im = im(:,end:-1:1,:);
 
         case 6
-            im = imrotate(im,-90);            
+            im = imrotate(im, -90);            
         case 5
             im = im(:,end:-1:1,:);
             im = imrotate(im,-90);            
