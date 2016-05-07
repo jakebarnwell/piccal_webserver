@@ -19,6 +19,7 @@ english = read_dictionary()
 
 def clean_text(text):
     text = re.sub('[^0-9a-zA-Z,:-\p{P}]+', ' ', text)
+    text = re.sub('[^;_];', ' ', text) 
     text = re.sub('\s+', ' ', text).strip()
     text = eliminate_non_words(text)
     print(text)
