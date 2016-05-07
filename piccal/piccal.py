@@ -72,7 +72,8 @@ def uploads():
         filename = secure_filename(file.filename)
         print(fiename)
         file_tmp = cStringIO.StringIO(file.read())
-        pil_image = Image.open(file_tmp)    
+        pil_image = Image.open(file_tmp)
+	pil_image = pil_image.resize((pil_image.size[0]/2,pil_image.size[1]/2), Image.ANTIALIAS)
 
         image_path = UPLOAD_FOLDER + "PIL_saved_image.jpg"
         print("Saving image to: " + image_path + "...\n")
@@ -81,23 +82,24 @@ def uploads():
         print("Image saved.\nProcessing text.\n")
         
         if use_matlab:
+	    print("Using MATLAB... ")
             text_path = UPLOAD_FOLDER + "output.txt"
             text_path2 = UPLOAD_FOLDER + "output"
             eng.OCRProcessing(image_path, text_path2, orientation, nargout=0)
             
-            print("Matlab processed.\n")
+            print("Matlab finished processing.\n")
             text = read_file(text_path)
             
-            print("Cleaning text")
+            print("Cleaning text.\n")
             text = ocr.clean_text(text)
             if len(text) < 3:
-                print("Found no text. Using simple ocr as fallback.\n")
+                print("MATLAB OCR did not give us enough text. Using simple ocr as fallback.\n")
                 if orientation != 6:
                     text = ocr.simple_ocr(pil_image)
                 else:
                     text = ocr.simple_ocr(pil_image.rotate(-90))
         else:
-            print("OCR call")
+            print("OCR call (no MATLAB)\n")
             text = ""
             text0 = ocr.simple_ocr(pil_image)
             #text90 = ocr.simple_ocr(pil_image.rotate(90))
@@ -107,6 +109,7 @@ def uploads():
             #text270 = ocr.simple_ocr(pil_image.rotate(270))
             text270 = ocr.simple_ocr(pil_image.rotate(-90))
             text = text270 if len(text270) > len(text0) else text0
+	print("All OCR complete. Cleaned OCR text:\n ")
         print(text)
         return text
     return "Error"
