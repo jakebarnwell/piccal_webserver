@@ -11,7 +11,7 @@ import matlab.engine
 import ocr
 import time
 
-UPLOAD_FOLDER = '/home/ubuntu/'
+UPLOAD_FOLDER = '/home/ubuntu/tmp_images/'
 ALLOWED_EXTENSIONS = set(['bmp', 'png', 'jpg', 'jpeg'])
 
 app = Flask(__name__)
@@ -51,14 +51,14 @@ def uploads():
     
     file = request.files['file']
     
-`   ## Process form data
+    ## Process form data
     if 'orientation' in request.form:
         orientation = int(request.form.get('orientation'))
     else:
         orientation = 0
         
     if 'corners' in request.form:
-        corners = request.form.get('orientation')
+        corners = request.form.get('corners')
         print("Corners detected in form request")
     else:
         corners = "0.0 0.0 0.0 1.0 1.0 0.0 1.0 1.0"    
@@ -70,12 +70,12 @@ def uploads():
     
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        print(fiename)
+        print(filename)
         file_tmp = cStringIO.StringIO(file.read())
         pil_image = Image.open(file_tmp)
 	pil_image = pil_image.resize((pil_image.size[0]/2,pil_image.size[1]/2), Image.ANTIALIAS)
 
-        image_path = UPLOAD_FOLDER + "PIL_saved_image.jpg"
+        image_path = UPLOAD_FOLDER + filename
         print("Saving image to: " + image_path + "...\n")
         
         pil_image.save(image_path)
