@@ -50,10 +50,23 @@ def uploads():
     print("----------------------\nPost request received")
     
     file = request.files['file']
+    
+    
+`   ## Process form data
     if 'orientation' in request.form:
         orientation = int(request.form.get('orientation'))
     else:
         orientation = 0
+        
+    if 'corners' in request.form:
+        corners = request.form.get('orientation')
+        print("Corners detected in form request")
+    else:
+        corners = "0.0 0.0 0.0 1.0 1.0 0.0 1.0 1.0"    
+    corners = [float(coordinate) for coordinate in corners.split(" ")]
+    corners = [(corners[0], corners[1]), (corners[2], corners[3]), (corners[4], corners[5]), (corners[6], corners[7])]
+    
+    print("Corners: " + str(corners))
     print("Orientation is: " + str(orientation))
     
     if file and allowed_file(file.filename):
