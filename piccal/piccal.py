@@ -15,7 +15,7 @@ ALLOWED_EXTENSIONS = set(['bmp', 'png', 'jpg', 'jpeg'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-use_matlab = False
+use_matlab = True
 
 if use_matlab:
     #eng = matlab.engine.start_matlab('-nodisplay -nosplash -nojvm -nodesktop')
@@ -55,7 +55,7 @@ def uploads():
         corners = request.form.get('corners')
         print("Corners detected in form request")
     else:
-        corners = "0.0 0.0 0.0 1.0 1.0 0.0 1.0 1.0"    
+        corners = "0.0 0.0 1.0 0.0 1.0 1.0 0.0 1.0"    
     corners = [float(coordinate) for coordinate in corners.split(" ")]
     
     print("Corners: " + str(corners))
@@ -64,11 +64,13 @@ def uploads():
     if file and allowed_file(file.filename):
         uploaded_image = image_processing.OCRImage(file, orientation)
         uploaded_image.save(UPLOAD_FOLDER)
-        
+
         text = ""
         
+        print("here_1")
         if use_matlab:
-            text = uploaded_image.matlab_ocr(matlab_engine, corners)
+            print("here_2")
+            text = uploaded_image.matlab_ocr(eng, UPLOAD_FOLDER, corners)
         
         if (len(text) < 3) or not use_matlab:
             print("Using simple ocr")
