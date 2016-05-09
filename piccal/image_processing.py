@@ -16,6 +16,13 @@ def read_file(text_path):
         read_data = f.read()
         return read_data
 
+def average_word_count(ocr_output):
+    num_words = len(ocr_output.split())
+    num_chars = sum([1 for c in ocr_output if c != " "])
+    if num_words == 0:
+        num_words = 1
+    return num_chars*1.0/num_words
+
 class OCRImage(object):
     def __init__(self, file, orientation):
         self.filename = secure_filename(file.filename)
@@ -59,7 +66,9 @@ class OCRImage(object):
         print(clean_text_1)
         print(clean_text_2)
         
-        if len(clean_text_1) > len(clean_text_2):
+        
+        
+        if average_word_count(clean_text_1) > average_word_count(clean_text_2):
             text = clean_text_1
         else:
             text = clean_text_2
