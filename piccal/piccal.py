@@ -71,6 +71,7 @@ def uploads():
             text = uploaded_image.matlab_ocr(matlab_engine, corners)
         
         if (len(text) < 3) or not use_matlab:
+            print("Using simple ocr")
             text = uploaded_image.simple_ocr()
             
         print("All OCR complete. Cleaned OCR text:\n ")
