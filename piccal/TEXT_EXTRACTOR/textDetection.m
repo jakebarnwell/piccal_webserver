@@ -6,8 +6,9 @@
 % image and plot these results. Notice that there are many non-text regions
 % detected alongside the text.
 
-function [ ocrText ] = textDetection( imgpath, Debug, x1, y1, x2, y2, x3, y3, x4, y4)
+function [ ocrText ] = textDetection( imgpath, x1, y1, x2, y2, x3, y3, x4, y4)
 
+Debug = 0;
 addpath([fileparts(mfilename('fullpath')), '/HOMOGRAPHY']);
 
 img = imread(imgpath);
@@ -32,7 +33,6 @@ Rout = imref2d([height, width],[1 width],[1 height]);
 I = imwarp(img,tf,'bilinear', 'SmoothEdges', true, 'OutputView', Rout );
 
 I = rgb2gray(I);
-
 
 % Detect MSER regions.
 [mserRegions, mserConnComp] = detectMSERFeatures(I, ... 
@@ -315,8 +315,6 @@ end
 % text within each bounding box. Note that without first finding the text
 % regions, the output of the |ocr| function would be considerably more
 % noisy.
-
 ocrtxt = ocr(I, textBBoxes);
-[ocrText] = [ocrtxt.Text];
-
+ocrText = [ocrtxt.Text];
 end

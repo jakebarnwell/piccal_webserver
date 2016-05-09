@@ -2,6 +2,7 @@ from werkzeug import secure_filename
 from PIL import Image, ImageFilter
 import cStringIO
 import ocr
+import unicodedata
 
 def preprocess_image(image):
     image.filter(ImageFilter.SHARPEN)
@@ -59,18 +60,23 @@ class OCRImage(object):
         #    corners[2*i+1] = corners[2*i+1]* height
         #    print(corners[2*i+1])
 
-        ocr_str = matlab_eng.detecttext(self.image_path, 0, corners[0], corners[1], corners[2], corners[3], corners[4], corners[5], corners[6], corners[7], nargout = 2)
+        (output_str) = matlab_eng.textDetection(self.image_path, corners[0], corners[1], corners[2], corners[3], corners[4], corners[5], corners[6], corners[7], nargout = 1)
+        if type(output_str) is str:
+		ocr_str = output_str
+	else:
+        	ocr_str = unicodedata.normalize('NFKD', output_str).encode('ascii', 'ignore')
+
         print(ocr_str)
         clean_text_str = ocr.clean_text(ocr.clean_text(ocr_str))
         print(clean_text_str)
         
         
         
-#        if average_word_count(clean_text_1) > average_word_count(clean_text_2):
-#            text = clean_text_1
-#        else:
-#            text = clean_text_2
-        #matlab_eng.OCRProcessing(self.image_path, text_path2, self.orientation, nargout=0)
+        #if average_word_count(clean_text_1) > average_word_count(clean_text_2):
+        #    text = clean_text_1
+        #else:
+        #    text = clean_text_2
+         #matlab_eng.OCRProcessing(self.image_path, text_path2, self.orientation, nargout=0)
         return clean_text_str
 
 #        print("Matlab finished processing.\n")

@@ -55,7 +55,7 @@ def uploads():
         corners = request.form.get('corners')
         print("Corners detected in form request")
     else:
-        corners = "0.001 0.002 0.999 0.000 0.998 0.997 0.004 0.998"    
+        corners = "0.11266025641026 0.1171875 0.86842948717949 0.11574519230769 0.88958333333333 0.94939903846154 0.00304487179487 0.90757211538462"    
     corners = [float(coordinate) for coordinate in corners.split(" ")]
     
     print("Corners: " + str(corners))
@@ -77,7 +77,7 @@ def uploads():
         if (len(text) < 3) or not use_matlab:
             print("Using simple ocr")
             text = uploaded_image.simple_ocr()
-            
+
         print("All OCR complete. Cleaned OCR text:\n ")
         print(text)
         return text
