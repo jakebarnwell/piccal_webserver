@@ -7,7 +7,7 @@ def preprocess_image(image):
     image.filter(ImageFilter.SHARPEN)
     image = reduce_if_needed(image)
 
-def reduce_if_needed(image)
+def reduce_if_needed(image):
     return image.resize((pil_image.size[0]/2,pil_image.size[1]/2), Image.ANTIALIAS)
 
 def read_file(text_path):
@@ -16,12 +16,13 @@ def read_file(text_path):
         return read_data
 
 class OCRImage(object):
-    def __init__(self, image_file, orientation):
+    def __init__(self, file, orientation):
         self.filename = secure_filename(file.filename)
-        
         file_tmp = cStringIO.StringIO(file.read())
         self.image = Image.open(file_tmp)
+        print("here")
         self.image = preprocess_image(self.image)
+        print("here2")
         self.orientation = orientation
         
     def save(self, folder):
