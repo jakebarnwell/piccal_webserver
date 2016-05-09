@@ -42,7 +42,3 @@ def eliminate_non_words(text):
         new_words.append(word)
     text = " ".join(new_words)
     return text
-
-def ocr(image, orientation, matlab_eng):
-
-def matlab_ocr(image, orietnation)
