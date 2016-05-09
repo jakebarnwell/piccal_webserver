@@ -5,8 +5,8 @@ function [ ocrText1, ocrText2 ] = detecttext( imgpath, x1, y1, x2, y2, x3, y3, x
 %             -1 = light text dark background
 
 %[fileparts(fileparts(mfilename('fullpath'))), '/PERSPECTIVE_CONTROL']
-addpath([fileparts(fileparts(mfilename('fullpath'))), '/PERSPECTIVE_CONTROL']);
-addpath([fileparts(fileparts(mfilename('fullpath'))), '/SWT']);
+addpath([fileparts(mfilename('fullpath')), '/PERSPECTIVE_CONTROL']);
+addpath([fileparts(mfilename('fullpath')), '/SWT']);
 
 img = imread(imgpath);
 downsampleScale = 4;
