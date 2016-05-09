@@ -57,7 +57,6 @@ def uploads():
     else:
         corners = "0.0 0.0 0.0 1.0 1.0 0.0 1.0 1.0"    
     corners = [float(coordinate) for coordinate in corners.split(" ")]
-    corners = [(corners[0], corners[1]), (corners[2], corners[3]), (corners[4], corners[5]), (corners[6], corners[7])]
     
     print("Corners: " + str(corners))
     print("Orientation is: " + str(orientation))
