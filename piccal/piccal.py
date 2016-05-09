@@ -55,7 +55,7 @@ def uploads():
         corners = request.form.get('corners')
         print("Corners detected in form request")
     else:
-        corners = "0.0 0.0 1.0 0.0 1.0 1.0 0.0 1.0"    
+        corners = "0.001 0.002 0.999 0.000 0.998 0.997 0.004 0.998"    
     corners = [float(coordinate) for coordinate in corners.split(" ")]
     
     print("Corners: " + str(corners))
