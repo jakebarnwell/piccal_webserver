@@ -10,9 +10,10 @@ addpath([fileparts(mfilename('fullpath')), '/SWT']);
 
 img = imread(imgpath);
 downsampleScale = 4;
-X = [x1; x2; x3; x4]/downsampleScale;
-Y = [y1; y2; y3; y4]/downsampleScale;
 img = imresize(img, 1/downsampleScale);
+[height, width, depth] = size(img);
+X = [x1; x2; x3; x4]*width;
+Y = [y1; y2; y3; y4]*height;
 homogrifiedImage = homogrify( img, X, Y );
 image = homogrifiedImage;
 
