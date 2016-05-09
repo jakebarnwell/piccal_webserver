@@ -41,7 +41,10 @@ class OCRImage(object):
         text_path = UPLOAD_FOLDER + "output.txt"
         text_path2 = UPLOAD_FOLDER + "output"
         
+        print("here")
         (str_1, str_2) = matlab_eng.detecttext(self.image_path, corners[0], corners[1], corners[2], corners[3], corners[4], corners[5], corners[6], corners[7], nargout = 2)
+       
+        print("here2")
         clean_text_1 = ocr.clean_text(str_1)
         clean_text_2 = ocr.clean_text(str_2)
         
