@@ -13,8 +13,8 @@ img = imread(imgpath);
 downsampleScale = max(floor(sqrt(orig_height*orig_width)/900), 1);
 img = imresize(img, 1/downsampleScale);
 [height, width, depth] = size(img);
-X = [x1; x2; x3; x4]*width;
-Y = [y1; y2; y3; y4]*height;
+X = ones(4,1) + (width - 1) * [x1; x2; x3; x4] .* ones(4,1);
+Y = ones(4,1) + (height - 1) * [y1; y2; y3; y4] .* ones(4,1);
 homogrifiedImage = homogrify( img, X, Y );
 image = homogrifiedImage;
 
