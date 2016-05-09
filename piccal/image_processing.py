@@ -16,7 +16,7 @@ def read_file(text_path):
         return read_data
 
 class OCRImage(object):
-    def __init__(self, image_file, orientation):
+    def __init__(self, file, orientation):
         self.filename = secure_filename(file.filename)
         
         file_tmp = cStringIO.StringIO(file.read())
