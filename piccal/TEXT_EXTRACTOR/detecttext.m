@@ -8,10 +8,14 @@ function [ ocrText1, ocrText2 ] = detecttext( imgpath, x1, y1, x2, y2, x3, y3, x
 addpath([fileparts(mfilename('fullpath')), '/PERSPECTIVE_CONTROL']);
 addpath([fileparts(mfilename('fullpath')), '/SWT']);
 
+x1str = num2str(x1)
+%error(x1str)
+
 img = imread(imgpath);
 downsampleScale = 4;
 X = [x1; x2; x3; x4]/downsampleScale;
 Y = [y1; y2; y3; y4]/downsampleScale;
+
 img = imresize(img, 1/downsampleScale);
 homogrifiedImage = homogrify( img, X, Y );
 image = homogrifiedImage;

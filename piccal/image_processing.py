@@ -42,17 +42,18 @@ class OCRImage(object):
         text_path2 = UPLOAD_FOLDER + "output"
         
         print("here")
-        width = self.image.size[0]-2
-        height = self.image.size[1]-2
-
-        for i in range(4):
-            corners[2*i] = 1+corners[2*i]*width
-            print(corners[2*i])
-            corners[2*i+1] = 1+ corners[2*i+1]* height
-            print(corners[2*i+1])
+        width = self.image.size[0]
+        height = self.image.size[1]
+        print(width)
+        print(height)
+        #for i in range(4):
+        #    corners[2*i] = corners[2*i]*width
+        #    print(corners[2*i])
+        #    corners[2*i+1] = corners[2*i+1]* height
+        #    print(corners[2*i+1])
 
         (str_1, str_2) = matlab_eng.detecttext(self.image_path, corners[0], corners[1], corners[2], corners[3], corners[4], corners[5], corners[6], corners[7], nargout = 2)
-        
+        print(str_1, str_2)
         clean_text_1 = ocr.clean_text(str_1)
         clean_text_2 = ocr.clean_text(str_2)
         print(clean_text_1)
