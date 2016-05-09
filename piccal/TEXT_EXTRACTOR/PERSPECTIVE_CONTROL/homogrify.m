@@ -4,6 +4,8 @@ function [ corrected_image ] = homogrify( img, X, Y )
 
 [X, Y] = sortPolyFromClockwiseStartingFromTopLeft( X, Y );
 
+img = im2double(rgb2gray(img));
+
 %x=[1;210;210;1];
 %y=[1;1;297;297];
 [height, width, depth] = size(img);
