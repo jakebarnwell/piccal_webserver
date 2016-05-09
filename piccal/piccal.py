@@ -70,8 +70,10 @@ def uploads():
         print("here_1")
         if use_matlab:
             print("here_2")
-            text = uploaded_image.matlab_ocr(eng, UPLOAD_FOLDER, corners)
-        
+            try:
+                text = uploaded_image.matlab_ocr(eng, UPLOAD_FOLDER, corners)
+            except:
+                pass
         if (len(text) < 3) or not use_matlab:
             print("Using simple ocr")
             text = uploaded_image.simple_ocr()
