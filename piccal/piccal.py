@@ -15,7 +15,7 @@ ALLOWED_EXTENSIONS = set(['bmp', 'png', 'jpg', 'jpeg'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-use_matlab = True
+use_matlab = False
 
 if use_matlab:
     #eng = matlab.engine.start_matlab('-nodisplay -nosplash -nojvm -nodesktop')

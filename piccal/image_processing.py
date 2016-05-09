@@ -1,14 +1,15 @@
 from werkzeug import secure_filename
-from PIL import Image
+from PIL import Image, ImageFilter
 import cStringIO
 import ocr
 
 def preprocess_image(image):
     image.filter(ImageFilter.SHARPEN)
     image = reduce_if_needed(image)
+    return image
 
 def reduce_if_needed(image):
-    return image.resize((pil_image.size[0]/2,pil_image.size[1]/2), Image.ANTIALIAS)
+    return image.resize((image.size[0]/2, image.size[1]/2), Image.ANTIALIAS)
 
 def read_file(text_path):
     with open(text_path, 'r') as f:
@@ -20,16 +21,15 @@ class OCRImage(object):
         self.filename = secure_filename(file.filename)
         file_tmp = cStringIO.StringIO(file.read())
         self.image = Image.open(file_tmp)
-        print("here")
         self.image = preprocess_image(self.image)
-        print("here2")
         self.orientation = orientation
         
     def save(self, folder):
-        print("Saving image to: " + image_path + "...\n")
+        #print("Saving image to: " + image_path + "...\n")
         path = folder + self.filename
         self.image_path = path
         self.image.save(path)
+        print("Image saved to path " + path +"\n")
         
     def simple_ocr(self):
         if self.orientation != 6:
