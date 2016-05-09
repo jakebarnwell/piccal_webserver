@@ -9,7 +9,8 @@ addpath([fileparts(mfilename('fullpath')), '/PERSPECTIVE_CONTROL']);
 addpath([fileparts(mfilename('fullpath')), '/SWT']);
 
 img = imread(imgpath);
-downsampleScale = 4;
+[orig_height, orig_width, orig_depth] = size(img);
+downsampleScale = max(floor(sqrt(orig_height*orig_width)/900), 1);
 img = imresize(img, 1/downsampleScale);
 [height, width, depth] = size(img);
 X = [x1; x2; x3; x4]*width;
