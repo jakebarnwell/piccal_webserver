@@ -11,7 +11,6 @@ def read_dictionary():
         for line in content:
             if "_" not in line:
                 english.add(line.lower())
-    print(len(english))
     return english
 
 english = read_dictionary()
