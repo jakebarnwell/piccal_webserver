@@ -59,21 +59,19 @@ class OCRImage(object):
         #    corners[2*i+1] = corners[2*i+1]* height
         #    print(corners[2*i+1])
 
-        (str_1, str_2) = matlab_eng.detecttext(self.image_path, corners[0], corners[1], corners[2], corners[3], corners[4], corners[5], corners[6], corners[7], nargout = 2)
-        print(str_1, str_2)
-        clean_text_1 = ocr.clean_text(ocr.clean_text(str_1))
-        clean_text_2 = ocr.clean_text(ocr.clean_text(str_2))
-        print(clean_text_1)
-        print(clean_text_2)
+        ocr_str = matlab_eng.detecttext(self.image_path, 0, corners[0], corners[1], corners[2], corners[3], corners[4], corners[5], corners[6], corners[7], nargout = 2)
+        print(ocr_str)
+        clean_text_str = ocr.clean_text(ocr.clean_text(ocr_str))
+        print(clean_text_str)
         
         
         
-        if average_word_count(clean_text_1) > average_word_count(clean_text_2):
-            text = clean_text_1
-        else:
-            text = clean_text_2
+#        if average_word_count(clean_text_1) > average_word_count(clean_text_2):
+#            text = clean_text_1
+#        else:
+#            text = clean_text_2
         #matlab_eng.OCRProcessing(self.image_path, text_path2, self.orientation, nargout=0)
-        return text
+        return clean_text_str
 
 #        print("Matlab finished processing.\n")
 #        text = read_file(text_path)
