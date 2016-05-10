@@ -4,9 +4,19 @@ import cStringIO
 import ocr
 import unicodedata
 
-def preprocess_image(image):
+def preprocess_image(image, orientation):
     image.filter(ImageFilter.SHARPEN)
+    image = fix_orientation(image, orientation)
     #image = reduce_if_needed(image)
+    return image
+
+def fix_orientation(image, orientation):
+    if orientation == 3:
+        image = image.rotate(180)
+    elif orientation == 6:
+        image = image.rotate(270)
+    elif orientation == 8:
+        image = image.rotate(90)
     return image
 
 def reduce_if_needed(image):
@@ -29,8 +39,9 @@ class OCRImage(object):
         self.filename = secure_filename(file.filename)
         file_tmp = cStringIO.StringIO(file.read())
         self.image = Image.open(file_tmp)
-        self.image = preprocess_image(self.image)
+        self.image = preprocess_image(self.image, orientation)
         self.orientation = orientation
+        
         
     def save(self, folder):
         path = folder + self.filename
@@ -39,10 +50,7 @@ class OCRImage(object):
         print("Image saved to path " + path +"\n")
         
     def simple_ocr(self):
-        if self.orientation != 6:
-            text = ocr.simple_ocr(self.image)
-        else:
-            text = ocr.simple_ocr(self.image.rotate(-90))
+        text = ocr.simple_ocr(self.image)
         return text
         
     def matlab_ocr(self, matlab_eng, UPLOAD_FOLDER, corners):
